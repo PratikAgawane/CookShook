@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Favorite Recipes</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding-top: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .card img {
+            object-fit: cover;
+            height: 180px;
+        }
+
+        .card-title {
+            font-weight: 700;
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .no-recipes {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            margin: 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        p {
+            font-weight: 400;
+            color: #555;
+        }
+
+        
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .form-control, .btn {
+            margin-top: 10px;
+        }
+
+        .recommendations {
+            padding: 50px 0;
+            background-color: #f9f9f9;
+        }
+
+        .recommendation-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+.recommendation-card button {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.recommendation-card button:hover {
+    background-color: #218838;
+}
+
+        .recommendation-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;  /* Space cards evenly */
+    padding: 10px;
+}
+
+.recommendation-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 20px;
+    width: 300px;  /* Increased width */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;  /* Add hover effect */
+}
+
+.recommendation-card img {
+    width: 100%;
+    height: 200px;  /* Adjusted height */
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.recommendation-card h5 {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recommendation-card p {
+    font-size: 14px;
+    color: #777;
+    margin: 10px 0;
+}
+.recommendation-card:hover {
+    transform: translateY(-5px);  /* Lift effect on hover */
+}
+        .recommendation-card button {
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .recommendations-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.recipe-card {
+    width: 200px;
+    margin: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.recipe-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.recipe-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.view-recipe-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-recipe-btn:hover {
+    background-color: #218838;
+}
+
+    </style>
+     <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='cookshookicon.jpg') }}" alt="Logo" width="50" height="30" class="d-inline-block align-text-top">
+                CookShook
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/about">About Us</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ current_user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_favorites') }}">My Favorites</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Your Favorite Recipes</h1>
+
+        {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes %}
+            <div class="col-md-4 col-sm-6">
+                <div class="card">
+                    <img src="{{ recipe.image_url or url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="{{ recipe.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.name }}</h5>
+                        
+                        <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="btn btn-success btn-block">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-recipes">You haven't saved any favorite recipes yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

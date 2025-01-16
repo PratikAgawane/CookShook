@@ -1,0 +1,111 @@
+<!-- templates/recommendations.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Recipes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: #333;
+    }
+    h1, h2, h3 {
+        font-weight: 700;
+    }
+    p {
+        font-weight: 400;
+        color: #555;
+    }
+</style>
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+        }
+        .about-section {
+            background: url('{{ url_for('static', filename='bg1.jpg') }}') no-repeat center center/cover;
+            padding: 100px 0;
+            color: #fff;
+            text-align:center;
+        }
+        .about-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .content {
+            padding: 40px;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='cookshookicon.jpg') }}" alt="Logo" width="50" height="30" class="d-inline-block align-text-top">
+                CookShook
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/about">About Us</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ current_user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        </li>
+                        
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('view_favorites') }}">My Favorites</a>
+</li>
+{% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+<body>
+    <div class="container">
+        <h1>Recommended Recipes</h1>
+        <ul class="list-group">
+            {% for recipe in recipes %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}">{{ recipe.name }}</a> <!-- Add link to the recipe details -->
+                    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+                    <!-- <p><strong>Instructions:</strong> {{ recipe.Instructions }}</p> -->
+
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="btn btn-secondary mt-3">Go Back</a>
+    </div>
+</body>
+</html>

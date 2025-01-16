@@ -1,0 +1,67 @@
+<!-- templates/recipe_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.name }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='cookshookicon.jpg') }}" alt="Logo" width="50" height="30" class="d-inline-block align-text-top">
+                CookShook
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/about">About Us</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ current_user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        </li>
+                        
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('view_favorites') }}">My Favorites</a>
+</li>
+{% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ recipe.name }}</h1>
+        <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}" class="img-fluid">
+        <h3>Ingredients</h3>
+        <p>{{ recipe.ingredients }}</p>
+        <h3>Instructions</h3>
+        <p>{{ recipe.instructions }}</p>
+        <a href="{{ url_for('recommend') }}" class="btn btn-primary">Go Back</a>
+
+        {% if current_user.is_authenticated %}
+        <form action="{{ url_for('save_favorite', recipe_id=recipe.id) }}" method="POST">
+            <button type="submit" class="btn btn-success">Save to Favorites</button>
+        </form>
+        {% else %}
+        <p><a href="{{ url_for('login') }}">Log in to save this recipe to favorites.</a></p>
+        {% endif %}
+        
+    </div>
+</body>
+</html>

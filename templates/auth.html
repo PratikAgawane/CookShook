@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - CookShook</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .image-section {
+            width: 50%;
+            background: url('{{ url_for('static', filename='loginandreg.jpeg') }}') no-repeat center center;
+            background-size: cover;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .form-section {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .form-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-card h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .toggle-text {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container-wrapper {
+                flex-direction: column;
+            }
+            .image-section, .form-section {
+                width: 100%;
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-wrapper" id="container">
+        <!-- Image section -->
+        <div class="image-section"></div>
+        
+        <!-- Login form -->
+        <div class="form-section">
+            <div class="form-card" id="loginForm">
+                <h2>Login</h2>
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="toggle-text">
+                    <p>Don’t have an account? <a href="#" id="goToRegister">Register here</a>.</p>
+                </div>
+            </div>
+
+            <!-- Register form -->
+            <div class="form-card" id="registerForm" style="display:none;">
+                <h2>Register</h2>
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div class="toggle-text">
+                    <p>Already have an account? <a href="#" id="goToLogin">Login here</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Flash Messages -->
+    <div class="modal fade" id="flashMessageModal" tabindex="-1" aria-labelledby="flashMessageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="flashMessageModalLabel">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="flashMessageContent"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to handle form toggling and flash messages -->
+    <script>
+        document.getElementById("goToRegister").addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("registerForm").style.display = "block";
+        });
+
+        document.getElementById("goToLogin").addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("registerForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        });
+
+        // Function to trigger the flash message modal with content
+        function showFlashMessage(message, category) {
+            var flashMessageContent = document.getElementById('flashMessageContent');
+            flashMessageContent.textContent = message;
+            document.getElementById('flashMessageModalLabel').textContent = category;
+            $('#flashMessageModal').modal('show');
+        }
+
+        // Display flash messages from the server
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    showFlashMessage("{{ message }}", "{{ category }}");
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </script>
+</body>
+</html>
