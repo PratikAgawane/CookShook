@@ -1,6 +1,6 @@
 [build]
   publish = "build"
-  command = "pip install -r requirements.txt && python app.py"
+  command = "pip install -r  python app.py"
 
 [functions]
   directory = "functions"
