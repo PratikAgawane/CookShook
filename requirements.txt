@@ -5,7 +5,7 @@ Flask-Session==0.5.0
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.1
 Flask-Login==0.6.3
-
+Flask-Migrate==4.0.5
 email-validator==2.1.1
 itsdangerous==2.2.0
 Jinja2==3.1.3
