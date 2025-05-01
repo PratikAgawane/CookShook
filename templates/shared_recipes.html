@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Recipes - CookShook</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+     <!-- Navbar with collapsible menu for mobile -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='cookshookicon.jpg') }}" alt="Logo" width="50" height="30" class="d-inline-block align-text-top">
+                CookShook
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/about">
+                            <i class="fas fa-info-circle"></i> About Us
+                        </a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-user"></i> {{ current_user.username }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_favorites') }}">
+                                <i class="fas fa-heart"></i> My Favorites
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('share_recipe') }}">
+                                <i class="fas fa-upload"></i> Share a Recipe
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_shared_recipes') }}">
+                                <i class="fas fa-users"></i> Community Recipes
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_meal_plan') }}">
+                                <i class="fas fa-calendar-alt"></i> Meal Planner
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <h2 class="text-center">Community Shared Recipes</h2>
+        <div class="row">
+            {% for recipe in shared_recipes %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ recipe.image_url or url_for('static', filename='placeholder.jpg') }}" class="recipe-img" alt="{{ recipe.name }}">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.name }}</h5>
+                        <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+                        <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

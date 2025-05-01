@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Favorite Recipes</title>
+
+    <!-- Bootstrap & Fonts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding-top: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            object-fit: cover;
+            height: 200px;
+            width: 100%;
+        }
+
+        .card-title {
+            font-weight: 700;
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .no-recipes {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        .btn-remove {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-remove:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+
+   
+
+</head>
+
+<body>
+    {% include "navbar.html" %}
+    <div class="container my-5">
+        <h1 class="text-center mb-4">My Favorite Recipes</h1>
+    
+        {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ recipe.name }}</h5>
+                        <p class="card-text">
+                            <strong>Ingredients:</strong> 
+                            {{ recipe.ingredients[:100] }}{% if recipe.ingredients|length > 100 %}...{% endif %}
+                        </p>
+                        <div class="mt-auto">
+                            <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="btn btn-primary btn-block mb-2">View Recipe</a>
+    
+                            <!-- Remove Favorite Button -->
+                            <form action="{{ url_for('remove_favorite', recipe_id=recipe.id) }}" method="POST">
+                                <button type="submit" class="btn btn-danger btn-block">
+                                    Remove Favorite ❤️
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center">You have no favorite recipes yet!</p>
+        {% endif %}
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ recipe.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        .recipe-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        .recipe-image {
+            flex: 1;
+            max-width: 500px;
+            margin-right: 30px;
+        }
+        .recipe-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .recipe-details {
+            flex: 2;
+        }
+        .recipe-details h1 {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .recipe-details h3 {
+            margin-top: 20px;
+        }
+        .btn-save {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Your navbar remains unchanged -->
+    {% include "navbar.html" %}
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}" class="img-fluid rounded">
+                <!-- {% if recipe.video_url %}
+                <a href="{{ recipe.video_url }}" target="_blank" class="btn btn-success mt-3">
+                    <i class="fas fa-video"></i> Watch Video
+                </a> -->
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <form action="{{ url_for('save_favorite', recipe_id=recipe.id) }}" method="POST">
+                    <button type="submit" class="btn btn-success btn-save">
+                        <i class="fas fa-heart"></i> Save to Favorites
+                    </button>
+                </form>
+            {% else %}
+                <p class="mt-3"><a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-sign-in-alt"></i> Log in to save this recipe
+                </a></p>
+            {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>{{ recipe.name }}</h2>
+                <p><strong>Cuisine:</strong> {{ recipe.cuisine or "N/A" }}</p>
+                <p><strong>Total Time:</strong> {{ recipe.total_time or "N/A" }} minutes</p>
+                <h4>Nutrition Facts</h4>
+                <ul>
+                    <li><strong>Calories:</strong> {{ recipe.calories or "N/A" }} kcal</li>
+                    <li><strong>Protein:</strong> {{ recipe.protein or "N/A" }} g</li>
+                    <li><strong>Carbs:</strong> {{ recipe.carbs or "N/A" }} g</li>
+                    <li><strong>Fat:</strong> {{ recipe.fat or "N/A" }} g</li>
+                </ul>
+                <h4>Ingredients</h4>
+                <p>{{ recipe.ingredients }}</p>
+                <h4>Instructions</h4>
+                <p>{{ recipe.instructions }}</p>
+            </div>
+            
+        </div>
+    </div>
+    
+
+            
+        
+    
+    
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

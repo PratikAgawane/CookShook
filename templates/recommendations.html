@@ -1,0 +1,94 @@
+<!-- templates/recommendations.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Recipes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: #333;
+    }
+    h1, h2, h3 {
+        font-weight: 700;
+    }
+    p {
+        font-weight: 400;
+        color: #555;
+    }
+</style>
+
+    <style>
+        .card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+        body {
+            background-color: #f9f9f9;
+            /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+        }
+        
+        .about-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .content {
+            padding: 40px;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+    </style>
+      
+</head>
+<body>
+    {% include "navbar.html" %}
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Recommended Recipes</h1>
+    
+        {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <p class="card-text">
+                                <strong>Ingredients:</strong> 
+                                {{ recipe.ingredients[:100] }}{% if recipe.ingredients|length > 100 %}...{% endif %}
+                            </p>
+                            <div class="mt-auto">
+                                <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="btn btn-primary btn-block mt-3">
+                                    View Recipe
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="text-center">No recommendations available at the moment.</p>
+        {% endif %}
+    </div>
+    
+</body>
+</html>

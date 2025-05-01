@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            margin: 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        p {
+            font-weight: 400;
+            color: #555;
+        }
+
+        .background {
+            background: url('{{ url_for('static', filename='indexwallpaper.jpg') }}') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .form-control, .btn {
+            margin-top: 10px;
+        }
+
+        .recommendations {
+            padding: 50px 0;
+            background-color: #f9f9f9;
+        }
+
+        .recommendation-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+.recommendation-card button {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.recommendation-card button:hover {
+    background-color: #218838;
+}
+
+        .recommendation-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;  /* Space cards evenly */
+    padding: 10px;
+}
+
+.recommendation-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 20px;
+    width: 300px;  /* Increased width */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;  /* Add hover effect */
+}
+
+.recommendation-card img {
+    width: 100%;
+    height: 200px;  /* Adjusted height */
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.recommendation-card h5 {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recommendation-card p {
+    font-size: 14px;
+    color: #777;
+    margin: 10px 0;
+}
+.recommendation-card:hover {
+    transform: translateY(-5px);  /* Lift effect on hover */
+}
+        .recommendation-card button {
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .recommendations-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.recipe-card {
+    width: 200px;
+    margin: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.recipe-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.recipe-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.view-recipe-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-recipe-btn:hover {
+    background-color: #218838;
+}
+.recipe-img {
+    width: 100%; /* Make all images responsive */
+    height: 200px; /* Fixed height */
+    object-fit: cover; /* Ensures the image fills the area without distortion */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .table {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .table thead {
+            background: #007bff;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #28a745;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #218838;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+        }
+        .modal-content {
+            border-radius: 10px;
+        }
+        .modal-header {
+            background: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-success {
+            width: 100%;
+        }
+        .btn-close {
+            background-color: white;
+        }
+        
+    </style><style>
+.card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+</style>
+
+</head>
+<body>
+
+    {% include "navbar.html" %}
+
+    <div class="container my-5">
+        <h1 class="text-center mb-4"><i class="fas fa-calendar-alt"></i> My Upcoming Meal Plans</h1>
+    
+        <!-- Add Meal Plan Button -->
+        <div class="text-end mb-4">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMealModal">
+                <i class="fas fa-plus"></i> Add New Meal
+            </button>
+        </div>
+    
+        <div class="row">
+            {% if meals %}
+                {% for meal in meals %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <img src="{{ meal.image_url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ meal.recipe_name }}</h5>
+                            <p><i class="fas fa-utensils"></i> {{ meal.meal_type }}</p>
+                            <p><i class="fas fa-calendar-day"></i> {{ meal.date }}</p>
+                            <a href="{{ url_for('recipe_detail', recipe_id=meal.recipe_id) }}" class="btn btn-success mt-auto">
+                                <i class="fas fa-eye"></i> View Recipe
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center">No upcoming meals planned yet! 🥗</p>
+            {% endif %}
+        </div>
+    </div>
+
+<!-- Add Meal Modal (popup form) -->
+<div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{{ url_for('add_meal_plan') }}">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addMealModalLabel">Add Meal Plan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="recipe_id" class="form-label">Select Recipe</label>
+              <select class="form-control" id="recipe_id" name="recipe_id" required>
+                <option value="">-- Choose --</option>
+                {% for recipe in recipes %}
+                <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="meal_type" class="form-label">Meal Type</label>
+              <select class="form-control" id="meal_type" name="meal_type" required>
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Snack</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary w-100">Save Meal Plan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
